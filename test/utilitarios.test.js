@@ -7,117 +7,161 @@ describe("Classe Utilitarios", () => {
     utilitarios = new Utilitarios();
   });
 
-  test("Teste se a string será invertida", async () => {
+  test("inverterString", () => {
     expect(utilitarios.inverterString("satc")).toBe("ctas");
+    expect(utilitarios.inverterString("")).toBe("");
   });
 
-  test("Teste se está contando a quantidade de caracteres da string", async () => {
+  test("contarCaracteres", () => {
     expect(utilitarios.contarCaracteres("satc")).toBe(4);
+    expect(utilitarios.contarCaracteres("")).toBe(0);
   });
 
-  test("Teste se está passando os caracteres para maiuscula", async () => {
+  test("paraMaiusculas", () => {
     expect(utilitarios.paraMaiusculas("satc")).toBe("SATC");
   });
 
-  test("Teste se está passando os caracteres para maiuscula", async () => {
-    expect(utilitarios.paraMaiusculas("satc")).toBe("SATC");
-  });
-
-  test("Teste se está passando os caracteres para minuscula", async () => {
+  test("paraMinusculas", () => {
     expect(utilitarios.paraMinusculas("SATC")).toBe("satc");
   });
 
-  test("Teste se está passando o primeiro caracterer para maiuscula", async () => {
+  test("primeiraLetraMaiuscula", () => {
     expect(utilitarios.primeiraLetraMaiuscula("satc")).toBe("Satc");
+    expect(utilitarios.primeiraLetraMaiuscula("s")).toBe("S");
+    expect(utilitarios.primeiraLetraMaiuscula("")).toBe("");
   });
 
-  test("Teste se está fazendo a soma dos numeros passados", async () => {
+  test("somar", () => {
     expect(utilitarios.somar(2, 2)).toBe(4);
+    expect(utilitarios.somar(-1, 1)).toBe(0);
   });
 
-  test("Teste se está fazendo a subtração dos numeros passados", async () => {
+  test("subtrair", () => {
     expect(utilitarios.subtrair(2, 2)).toBe(0);
+    expect(utilitarios.subtrair(2, -2)).toBe(4);
   });
 
-  test("Teste se está fazendo a multiplicação dos numeros passados", async () => {
+  test("multiplicar", () => {
     expect(utilitarios.multiplicar(2, 2)).toBe(4);
+    expect(utilitarios.multiplicar(2, 0)).toBe(0);
   });
 
-  test("Teste se está fazendo a divisão dos numeros passados", async () => {
+  test("dividir", () => {
     expect(utilitarios.dividir(2, 2)).toBe(1);
   });
 
-  test("Teste se está validando se o numero é par ou não", async () => {
+  test("dividir lança erro com mensagem ao dividir por zero", () => {
+    expect(() => utilitarios.dividir(10, 0)).toThrow("Divisão por zero");
+
+  });
+
+  test("ehPar", () => {
     expect(utilitarios.ehPar(2)).toBe(true);
     expect(utilitarios.ehPar(3)).toBe(false);
+    expect(utilitarios.ehPar(0)).toBe(true);
+    expect(utilitarios.ehPar(-2)).toBe(true);
   });
 
-  test("Teste se está retornando o primeiro numero do array", () => {
+  test("primeiroElemento", () => {
     expect(utilitarios.primeiroElemento([1, 2, 3, 4, 5])).toEqual(1);
+    expect(utilitarios.primeiroElemento([])).toBeUndefined();
   });
 
-  test("Teste se está retornando o ultimo numero do array", () => {
+  test("ultimoElemento", () => {
     expect(utilitarios.ultimoElemento([1, 2, 3, 4, 5])).toEqual(5);
+    expect(utilitarios.ultimoElemento([])).toBeUndefined();
   });
 
-  test("Teste se está retornando o tamanho do array", () => {
+  test("tamanhoArray", () => {
     expect(utilitarios.tamanhoArray([1, 2, 3, 4, 5])).toEqual(5);
+    expect(utilitarios.tamanhoArray([])).toEqual(0);
   });
 
-  test("Teste se está retornando o array ordenado", () => {
+  test("ordenarArray", () => {
     expect(utilitarios.ordenarArray([2, 1, 4, 5, 3, 6])).toEqual([1, 2, 3, 4, 5, 6]);
   });
 
-  test("Teste se está retornando invertido o array passado", () => {
+  test("inverterArray", () => {
     expect(utilitarios.inverterArray([1, 2, 3, 4, 5])).toEqual([5, 4, 3, 2, 1]);
+    expect(utilitarios.inverterArray([])).toEqual([]);
   });
 
-  test('Teste se está gerando um número menor que o maximo e maior que o minimo', () => {
-    const max = 100;
-    const resultado = utilitarios.gerarNumeroAleatorio(max);
-    expect(resultado).toBeGreaterThanOrEqual(0);
-    expect(resultado).toBeLessThan(100);
+  describe("gerarNumeroAleatorio", () => {
+    const originalRandom = Math.random;
+    afterEach(() => (Math.random = originalRandom));
+
+    test("usa max default (100) e calcula floor(Math.random() * max)", () => {
+      Math.random = () => 0.12345;
+      const r = utilitarios.gerarNumeroAleatorio();
+      expect(Number.isInteger(r)).toBe(true);
+      expect(r).toBeGreaterThanOrEqual(0);
+      expect(r).toBeLessThan(100);
+      expect(r).toBe(12);
+    });
+
+    test("respeita max customizado", () => {
+      Math.random = () => 0.99999;
+      const r = utilitarios.gerarNumeroAleatorio(10);
+      expect(r).toBeLessThan(10);
+      expect(r).toBe(9); 
+    });
   });
 
-    test("Teste se está verificando corretamente se o parametro passado é número", () => {
+  test("ehNumero diferencia number de string numérica", () => {
     expect(utilitarios.ehNumero(2)).toBe(true);
+    expect(utilitarios.ehNumero("2")).toBe(false); 
     expect(utilitarios.ehNumero("teste")).toBe(false);
+    expect(utilitarios.ehNumero(NaN)).toBe(false);
   });
 
-  test("Teste se está removendo os espaços da String", () => {
+  test("removerEspacos", () => {
     expect(utilitarios.removerEspacos("     Satc Satc        ")).toBe("Satc Satc");
+    expect(utilitarios.removerEspacos("")).toBe("");
   });
 
-  test("Teste se está retornando uma string reptida com base na quantidade passada", () => {
+  test("repetirTexto", () => {
     expect(utilitarios.repetirTexto("Satc", 2)).toBe("SatcSatc");
+    expect(utilitarios.repetirTexto("", 3)).toBe("");
   });
 
-  test("Testando se retorna os elementos do array separados por virgula", () => {
+  test("juntarArray", () => {
     expect(utilitarios.juntarArray([1, 2, 3, 4, 5, 6])).toEqual("1,2,3,4,5,6");
+    expect(utilitarios.juntarArray(["a", "b"], "-")).toEqual("a-b");
   });
 
-  test("Teste se retorna a quantidade de palavras passadas no parametro", () => {
-    expect(utilitarios.contarPalavras("Satc Satc Satc Satc")).toBe(4);
+  describe("contarPalavras - normalização de espaços", () => {
+    test("ignora espaços nas pontas (trim) e colapsa múltiplos espaços (\\s+)", () => {
+      expect(utilitarios.contarPalavras("  a   b    c  ")).toBe(3);
+      expect(utilitarios.contarPalavras("\n\ta\tb\tc\n")).toBe(3);
+    });
   });
 
-  test("Teste se está retornando a média dos numeros do array", () => {
-    expect(utilitarios.mediaArray([1, 2, 3, 4, 5])).toEqual(3);
+
+  test("mediaArray retorna 0 para array vazio", () => {
+    expect(utilitarios.mediaArray([])).toBe(0);
   });
 
-  test("Testando se o metódo remove os numeros duplicados do array", () => {
-    expect(utilitarios.removerDuplicados([1, 1, 2, 2, 2, 2, 3, 3, 4, 4, 5, 5, 5])).toEqual([1, 2, 3, 4, 5]);
+  test("mediaArray calcula média corretamente", () => {
+    expect(utilitarios.mediaArray([1, 2, 3, 4, 5])).toBe(3);
   });
 
-  test("Teste se retorna true para palavras Palindromo", () => {
-    expect(utilitarios.ehPalindromo("ovo")).toBe(true);
+ 
+  test("removerDuplicados", () => {
+    expect(utilitarios.removerDuplicados([1, 1, 2, 2, 3, 4, 4, 5, 5])).toEqual([1, 2, 3, 4, 5]);
+    expect(utilitarios.removerDuplicados([])).toEqual([]);
+  });
+
+  test("ehPalindromo ignora pontuação/maiúsculas e não injeta texto", () => {
+    expect(utilitarios.ehPalindromo("A man, a plan, a canal: Panama!")).toBe(true);
     expect(utilitarios.ehPalindromo("satc")).toBe(false);
   });
 
-  test("Teste se combinará corretamente dois objetos", () => {
-  const obj1 = { nome1: "Satc"};
-  const obj2 = { nome2: "Educação"};
-  const resultado = utilitarios.mesclarObjetos(obj1, obj2);
-  expect(resultado).toEqual({ nome1: "Satc", nome2: "Educação" });
-});
+  test("mesclarObjetos preserva e sobrescreve corretamente", () => {
+    const obj1 = { nome1: "Satc" };
+    const obj2 = { nome2: "Educação" };
+    expect(utilitarios.mesclarObjetos(obj1, obj2)).toEqual({ nome1: "Satc", nome2: "Educação" });
 
+    const override = utilitarios.mesclarObjetos({ a: 1, x: 1 }, { b: 2, x: 2 });
+    expect(override).toEqual({ a: 1, x: 2, b: 2 }); 
+  });
 });

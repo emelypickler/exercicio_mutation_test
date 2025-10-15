@@ -7,18 +7,18 @@
   "license": "ISC",
   "dependencies": {
     "jest": "^30.0.5",
-    "rimraf": "^6.0.1",
-    "mkdirp": "^3.0.1"
+    "mkdirp": "^3.0.1",
+    "rimraf": "^6.0.1"
   },
   "scripts": {
     "clean": "rimraf ./coverage && mkdirp ./coverage",
-    "test": "npm run clean && jest",
+    "test": "jest",
+    "mutate": "stryker run",
     "coverage": "npm run clean && jest --coverage"
   },
-  "jest": {
-    "coverageReporters": [
-      "lcov",
-      "text"
-    ]
+  
+  "devDependencies": {
+    "@stryker-mutator/core": "^9.2.0",
+    "@stryker-mutator/jest-runner": "^9.2.0"
   }
 }
