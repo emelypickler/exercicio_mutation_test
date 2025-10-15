@@ -14,7 +14,7 @@
     "clean": "rimraf ./coverage && mkdirp ./coverage",
     "test": "jest",
     "mutate": "stryker run",
-    "coverage": "npm run clean && jest --coverage"
+    "coverage": "stryker run"
   },
   
   "devDependencies": {
